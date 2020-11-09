@@ -12,13 +12,13 @@
     <thead>
       <tr>
         <th class="text-center" scope="col">Nom</th>
-        <th class="text-center" scope="col">Part°</th>
-        <th class="text-center" scope="col">Pos° moy</th>
-        <th class="text-center" scope="col">Re-entries</th>
-        <th class="text-center" scope="col">Mises</th>
-        <th class="text-center" scope="col">Gains</th>
-        <th class="text-center" scope="col">Gains nets</th>
-        <th class="text-center" scope="col">Gains par part°</th>
+        <th class="text-center" scope="col"><%= sortable("Part°", "bets", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Pos° moy", "average_position", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Re-entries", "reentries", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Mises", "bets", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Gains", "earnings", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Gains nets", "net_earnings", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Gains par part°", "earnings_by_game", params[:query]) %></th>
       </tr>
     </thead>
     <tbody>
