@@ -1,2 +1,32 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container d-flex justify-content-center">
+  <div class="subcontainer">
+    <div class="d-flex justify-content-center mb-4">
+      <%= image_tag 'logo.png', width: '250' %>
+    </div>
+
+    <p>Ceci est une version bêta pour les copains.</p>
+
+    <p class="">Le confinement a entraîné une recrudescence des tournois de poker entre potes.</p>
+
+    <p class="brand-color"><strong>Cette app est destinée aux joueurs de Winamax qui veulent suivre l'évolution des performances de chacun dans leurs tournois privés.</strong></p>
+
+    <p class="">Le principe est le suivant :</p>
+    <ul class="">
+      <li class="">Vous créez un compte.</li>
+      <li class="">Vous créez un tournoi.</li>
+      <li class="">Après chaque petite partie entre potes vous venez renseigner le code Winamax.</li>
+      <li class="">Les stats de chaque joueur se calculent automatiquement.</li>
+    </ul>
+
+    <p class="">Évolutions possibles :</p>
+    <ul class="">
+      <li class="">Ajout de badges pour récompenser les meilleurs et souiller les pires.</li>
+      <li class="">Une page par joueur pour avoir ses stats au fil des parties à la <%= link_to 'Sharkscope', 'https://fr.sharkscope.com/' %>.</li>
+    </ul>
+
+    <p class="">Pour le moment les tournois sont visibles par tout le monde, accédez à la liste :</p>
+    <div class="d-flex justify-content-center">
+      <%= link_to 'Les Tournois en cours', tournaments_path, class: 'btn btn-primary' %>
+    </div>
+  </div>
+</div>

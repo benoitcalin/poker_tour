@@ -1,0 +1,39 @@
+<div class="container">
+  <h1 class="my-4 text-center"><%= @tournament.name %></h1>
+
+  <% if @tournament.name.include?("Alli") %>
+    <div class="text-center mb-4">
+      <%= link_to 'Allis Only', tournament_path(@tournament, query: "allis"), class: 'btn btn-primary mr-3' %>
+      <%= link_to 'Tous', tournament_path(@tournament), class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center" scope="col">Nom</th>
+        <th class="text-center" scope="col">Part°</th>
+        <th class="text-center" scope="col">Pos° moy</th>
+        <th class="text-center" scope="col">Re-entries</th>
+        <th class="text-center" scope="col">Mises</th>
+        <th class="text-center" scope="col">Gains</th>
+        <th class="text-center" scope="col">Gains nets</th>
+        <th class="text-center" scope="col">Gains par part°</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stats.each do |stat| %>
+        <tr>
+          <td class=""><%= stat.player.name %></td>
+          <td class="text-center"><%= stat.games.to_i %></td>
+          <td class="text-center"><%= number_with_precision(stat.average_position, precision: 2) %></td>
+          <td class="text-center"><%= stat.reentries.to_i %></td>
+          <td class="text-center"><%= number_to_currency(stat.bets.round(2), precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.earnings.round(2), precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.net_earnings.round(2), precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.earnings_by_game.round(2), precision: 2) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
