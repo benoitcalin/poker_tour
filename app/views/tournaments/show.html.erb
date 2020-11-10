@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="my-4 text-center"><%= @tournament.name %></h1>
 
-  <% if %>
+  <% if @tournament.user == current_user %>
     <div class="text-center mb-4">
       <%= simple_form_for [@tournament, @game], html: { class: 'add-game-form' } do |f|%>
         <%= f.input :winamax_id, placeholder: "356601454", label: 'Ajouter une partie :', input_html: { style: 'max-width: 200px;', class: 'mb-2 mx-auto' } %>
