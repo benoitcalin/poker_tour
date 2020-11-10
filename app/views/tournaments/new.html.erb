@@ -1,0 +1,11 @@
+<div class="container d-flex justify-content-center">
+  <div class="subcontainer">
+    <h1 class="my-4 text-center">Créer un tournoi</h1>
+    <div class="text-center mb-4">
+      <%= simple_form_for @tournament do |f|%>
+        <%= f.input :name, placeholder: "Mon tournoi entre potes", label: 'Nom du tournoi :' %>
+        <%= f.submit 'Créer mon tournoi', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>

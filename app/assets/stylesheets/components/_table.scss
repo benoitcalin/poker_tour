@@ -11,3 +11,13 @@
 .table th .desc {
   background-image: url(arrow-top.svg);
 }
+
+.tournament-table td {
+  min-width: 90px;
+}
+
+@media(max-width: 576px) {
+  .tournament-table {
+    font-size: 14px;
+  }
+}

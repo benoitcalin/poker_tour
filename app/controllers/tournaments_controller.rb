@@ -17,7 +17,7 @@ class TournamentsController < ApplicationController
     elsif params["sort"]
       @stats = sortable_column_order(@tournament.tournament_results.includes(:player))
     else
-      @stats = @tournament.tournament_results.includes(:player)
+      @stats = @tournament.tournament_results.includes(:player).order("earnings desc")
     end
   end
 

@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="my-4 text-center"><%= @tournament.name %></h1>
+  <h1 class="my-4 text-center brand-color"><%= @tournament.name %></h1>
 
   <% if @tournament.user == current_user %>
     <div class="text-center mb-4">
@@ -19,42 +19,50 @@
     </div>
   <% end %>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th class="text-center" scope="col">Nom</th>
-        <th class="text-center" scope="col"><%= sortable("Part°", "bets", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Pos° moy", "average_position", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Re-entries", "reentries", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Mises", "bets", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Gains", "earnings", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Kills", "kills", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Gains nets", "net_earnings", params[:query]) %></th>
-        <th class="text-center" scope="col"><%= sortable("Gains par part°", "earnings_by_game", params[:query]) %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @stats.each do |stat| %>
-        <tr>
-          <td class=""><%= stat.player.name %></td>
-          <td class="text-center"><%= stat.games.to_i %></td>
-          <td class="text-center"><%= number_with_precision(stat.average_position, precision: 2) %></td>
-          <td class="text-center"><%= stat.reentries.to_i %></td>
-          <td class="text-center"><%= number_to_currency(stat.bets, precision: 2) %></td>
-          <td class="text-center"><%= number_to_currency(stat.earnings, precision: 2) %></td>
-          <td class="text-center"><%= number_with_precision(stat.kills, precision: 0) %></td>
-          <td class="text-center"><%= number_to_currency(stat.net_earnings, precision: 2) %></td>
-          <td class="text-center"><%= number_to_currency(stat.earnings_by_game, precision: 2) %></td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <% if @stats.empty? %>
+    <h4 class="text-center"><strong>Ajoute la première game de ton tournoi pour voir les stats !</strong></h4>
+    <h4 class="text-center"><strong>Cela ressemblera à ça :</strong></h4>
+    <%= image_tag 'https://res.cloudinary.com/di2wcculd/image/upload/v1605006232/MAXITILT/exemple_interface.png', style: 'max-width: 100%; opacity: 0.5' %>
+  <% else %>
+    <div style='max-width: 100%; overflow: scroll;'>
+      <table class="table table-striped tournament-table">
+        <thead>
+          <tr>
+            <th class="text-center" scope="col">Nom</th>
+            <th class="text-center" scope="col"><%= sortable("Part°", "bets", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Pos° moy", "average_position", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Re-entries", "reentries", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Mises", "bets", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Gains", "earnings", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Kills", "kills", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Gains nets", "net_earnings", params[:query]) %></th>
+            <th class="text-center" scope="col"><%= sortable("Gains/ part°", "earnings_by_game", params[:query]) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @stats.each do |stat| %>
+            <tr>
+              <td class=""><%= stat.player.name %></td>
+              <td class="text-center"><%= stat.games.to_i %></td>
+              <td class="text-center"><%= number_with_precision(stat.average_position, precision: 2) %></td>
+              <td class="text-center"><%= stat.reentries.to_i %></td>
+              <td class="text-center"><%= number_to_currency(stat.bets, precision: 2) %></td>
+              <td class="text-center"><%= number_to_currency(stat.earnings, precision: 2) %></td>
+              <td class="text-center"><%= number_with_precision(stat.kills, precision: 0) %></td>
+              <td class="text-center"><%= number_to_currency(stat.net_earnings, precision: 2) %></td>
+              <td class="text-center"><%= number_to_currency(stat.earnings_by_game, precision: 2) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
 
-  <h2 class="my-4 text-center">Parties jouées</h2>
+    <h2 class="my-4 text-center">Parties jouées</h2>
 
-  <% @tournament.games.order("start_time desc").each do |game| %>
-    <%= link_to hef="https://www.winamax.fr/poker/tournament.php?ID=#{game.winamax_id}", target: "_blank" do %>
-      <p class=""><%= game.name %> - le <%= game.start_time.strftime("%d/%m/%Y") %></p>
+    <% @tournament.games.order("start_time desc").each do |game| %>
+      <%= link_to hef="https://www.winamax.fr/poker/tournament.php?ID=#{game.winamax_id}", target: "_blank" do %>
+        <p class=""><%= game.name %> - le <%= game.start_time.strftime("%d/%m/%Y") %></p>
+      <% end %>
     <% end %>
   <% end %>
 </div>

@@ -30,12 +30,18 @@ const gameValidation = () => {
     input.addEventListener('keyup', e => {
       if (input.value.length === 9) {
         scrapeTournamentTitle(input.value);
+      } else {
+        const div = document.querySelector('.game-verification')
+        div.innerHTML = ""
       }
     })
 
     input.addEventListener('blur', e => {
       if (input.value.length === 9) {
         scrapeTournamentTitle(input.value);
+      } else {
+        const div = document.querySelector('.game-verification')
+        div.innerHTML = ""
       }
     })
   }
