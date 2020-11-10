@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_151740) do
     t.float "total_reentries"
     t.float "buyin"
     t.float "rake"
+    t.float "bounty"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -47,6 +48,8 @@ ActiveRecord::Schema.define(version: 2020_11_09_151740) do
     t.float "position"
     t.float "reentries", default: 0.0, null: false
     t.float "earnings"
+    t.float "bounties", default: 0.0, null: false
+    t.float "kills", default: 0.0, null: false
     t.bigint "player_id", null: false
     t.bigint "game_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -69,6 +72,8 @@ ActiveRecord::Schema.define(version: 2020_11_09_151740) do
     t.float "average_position"
     t.float "reentries"
     t.float "bets"
+    t.float "kills"
+    t.float "bounties"
     t.float "earnings"
     t.float "net_earnings"
     t.float "earnings_by_game"
@@ -80,8 +85,10 @@ ActiveRecord::Schema.define(version: 2020_11_09_151740) do
 
   create_table "tournaments", force: :cascade do |t|
     t.string "name"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_tournaments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,4 +114,5 @@ ActiveRecord::Schema.define(version: 2020_11_09_151740) do
   add_foreign_key "sessions", "tournaments"
   add_foreign_key "tournament_results", "players"
   add_foreign_key "tournament_results", "tournaments"
+  add_foreign_key "tournaments", "users"
 end

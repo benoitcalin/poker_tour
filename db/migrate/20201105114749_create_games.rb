@@ -9,6 +9,7 @@ class CreateGames < ActiveRecord::Migration[6.0]
       t.float :total_reentries
       t.float :buyin
       t.float :rake
+      t.float :bounty
 
       t.timestamps
     end

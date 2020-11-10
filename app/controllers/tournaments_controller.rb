@@ -9,6 +9,7 @@ class TournamentsController < ApplicationController
   def show
     allis = ['Magrande', 'Mougne69', 'Elcasador', 'Geo8535', 'jukebox91210', 'ritouns', 'StevOLRRR', 'leotom7576', 'KensBanker', 'Chaton96', 'Sakorh']
     @tournament = Tournament.find(params[:id])
+    @game = Game.new
     if params[:query] && params["sort"]
       @stats = sortable_column_order(@tournament.tournament_results.includes(:player)).select { |tr| allis.include?(tr.player.name) }
     elsif params[:query]
@@ -26,6 +27,7 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = Tournament.new(tournament_params)
+    @tournament.user = current_user
     if @tournament.save
       Participation.create(user: current_user, tournament: @tournament)
       redirect_to tournament_path(@tournament)
@@ -53,6 +55,6 @@ class TournamentsController < ApplicationController
   end
 
   def authorize_sortable_column
-    ["games", "average_position", "reentries", "bets", "earnings", "net_earnings", "earnings_by_game"]
+    ["games", "average_position", "reentries", "bets", "earnings", "net_earnings", "earnings_by_game", "kills"]
   end
 end

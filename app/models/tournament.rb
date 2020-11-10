@@ -1,4 +1,5 @@
 class Tournament < ApplicationRecord
+  belongs_to :user
   has_many :participations, dependent: :destroy
 
   has_many :tournament_results, dependent: :destroy
@@ -19,7 +20,9 @@ class Tournament < ApplicationRecord
       bets: calculate_bets,
       earnings: calculate_earnings,
       net_earnings: calculate_net_earnings,
-      earnings_by_game: calculate_earnings_by_game
+      earnings_by_game: calculate_earnings_by_game,
+      kills: calculate_kills,
+      bounties: calculate_bounties
     }
   end
 
@@ -36,6 +39,14 @@ class Tournament < ApplicationRecord
 
   def calculate_reentries
     @player_results.map(&:reentries).sum
+  end
+
+  def calculate_kills
+    @player_results.map(&:kills).sum
+  end
+
+  def calculate_bounties
+    @player_results.map(&:bounties).sum
   end
 
   def calculate_bets

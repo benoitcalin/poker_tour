@@ -1,9 +1,20 @@
 <div class="container">
   <h1 class="my-4 text-center"><%= @tournament.name %></h1>
 
-  <% if @tournament.name.include?("Alli") %>
+  <% if %>
     <div class="text-center mb-4">
-      <%= link_to 'Allis Only', tournament_path(@tournament, query: "allis"), class: 'btn btn-primary mr-3' %>
+      <%= simple_form_for [@tournament, @game], html: { class: 'add-game-form' } do |f|%>
+        <%= f.input :winamax_id, placeholder: "356601454", label: 'Ajouter une partie :', input_html: { style: 'max-width: 200px;', class: 'mb-2 mx-auto' } %>
+        <div class="game-verification d-none"></div>
+        <%= f.submit 'Ajouter une partie', class: 'btn btn-primary', style: 'height: 38px;', id: 'submit-game' %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @tournament.name.include?("Alli") %>
+    <div class="mb-2">
+      <span>Filtrer :</span>
+      <%= link_to 'Allis Only', tournament_path(@tournament, query: "allis"), class: 'btn btn-primary mx-3' %>
       <%= link_to 'Tous', tournament_path(@tournament), class: 'btn btn-primary' %>
     </div>
   <% end %>
@@ -17,6 +28,7 @@
         <th class="text-center" scope="col"><%= sortable("Re-entries", "reentries", params[:query]) %></th>
         <th class="text-center" scope="col"><%= sortable("Mises", "bets", params[:query]) %></th>
         <th class="text-center" scope="col"><%= sortable("Gains", "earnings", params[:query]) %></th>
+        <th class="text-center" scope="col"><%= sortable("Kills", "kills", params[:query]) %></th>
         <th class="text-center" scope="col"><%= sortable("Gains nets", "net_earnings", params[:query]) %></th>
         <th class="text-center" scope="col"><%= sortable("Gains par part°", "earnings_by_game", params[:query]) %></th>
       </tr>
@@ -28,12 +40,21 @@
           <td class="text-center"><%= stat.games.to_i %></td>
           <td class="text-center"><%= number_with_precision(stat.average_position, precision: 2) %></td>
           <td class="text-center"><%= stat.reentries.to_i %></td>
-          <td class="text-center"><%= number_to_currency(stat.bets.round(2), precision: 2) %></td>
-          <td class="text-center"><%= number_to_currency(stat.earnings.round(2), precision: 2) %></td>
-          <td class="text-center"><%= number_to_currency(stat.net_earnings.round(2), precision: 2) %></td>
-          <td class="text-center"><%= number_to_currency(stat.earnings_by_game.round(2), precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.bets, precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.earnings, precision: 2) %></td>
+          <td class="text-center"><%= number_with_precision(stat.kills, precision: 0) %></td>
+          <td class="text-center"><%= number_to_currency(stat.net_earnings, precision: 2) %></td>
+          <td class="text-center"><%= number_to_currency(stat.earnings_by_game, precision: 2) %></td>
         </tr>
     <% end %>
     </tbody>
   </table>
+
+  <h2 class="my-4 text-center">Parties jouées</h2>
+
+  <% @tournament.games.order("start_time desc").each do |game| %>
+    <%= link_to hef="https://www.winamax.fr/poker/tournament.php?ID=#{game.winamax_id}", target: "_blank" do %>
+      <p class=""><%= game.name %> - le <%= game.start_time.strftime("%d/%m/%Y") %></p>
+    <% end %>
+  <% end %>
 </div>

@@ -4,9 +4,10 @@ class Game < ApplicationRecord
   has_many :players, through: :results
 
   validates :name, uniqueness: true
+  validates :winamax_id, uniqueness: true
 
   def price
-    buyin + rake
+    buyin + rake + bounty
   end
 
   def total_players
@@ -14,6 +15,6 @@ class Game < ApplicationRecord
   end
 
   def prize_pool
-    buyin * total_registrations
+    (buyin + bounty) * total_registrations
   end
 end

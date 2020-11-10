@@ -7,12 +7,18 @@ Tournament.destroy_all
 User.destroy_all
 Game.destroy_all
 Player.destroy_all
+Session.destroy_all
+Participation.destroy_all
+Result.destroy_all
+
 
 # CPT - Allis
-User.create!(email: 'benoit.calin@gmail.com', password: ENV["PASSWORD_ADMIN"], username: "La Chatte", winamax_name: "Chaton96")
+user = User.create!(email: 'benoit.calin@gmail.com', password: ENV["PASSWORD_ADMIN"], username: "La Chatte", winamax_name: "Chaton96")
 puts "Admin created"
 
-tournament = Tournament.create!(name: "Confinement Poker Tour - Allis")
+tournament = Tournament.new(name: "Confinement Poker Tour - Allis")
+tournament.user = user
+tournament.save!
 puts "#{tournament.name} created"
 
 game_ids.each do |game_id|
@@ -30,6 +36,12 @@ game_ids.each do |game_id|
       puts "Player #{player.name} created"
 
       new_result = Result.new(result.except("player_name"))
+      if result['position'] == 1
+        other_bounties = game.total_registrations * game.bounty - new_result.bounties
+        new_result.kills = game.bounty > 0 ? (((new_result.bounties - other_bounties) / game.bounty) - 1.0) : 0.00
+      else
+        new_result.kills = game.bounty > 0 ? new_result.bounties / (game.bounty / 2.0) : 0.00
+      end
       new_result.player = player
       new_result.game = game
       new_result.save!
@@ -59,7 +71,9 @@ game_ids.each do |game_id|
 end
 
 # Ligue 1 Hubert Bite
-hb_tournament = Tournament.create!(name: "Confinement Poker Tour - Ligue 1 Hubert Bite")
+hb_tournament = Tournament.new(name: "Confinement Poker Tour - Ligue 1 Hubert Bite")
+hb_tournament.user = user
+hb_tournament.save!
 puts "#{hb_tournament.name} created"
 
 hb_game_ids = ['362159900', '362089613', '359272358', '359216685', '356326439', '356279110']
