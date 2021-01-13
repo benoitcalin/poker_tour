@@ -105,7 +105,7 @@ class GameScraper
   def create_result_hash(html_doc)
     results = []
     html_doc.search('tr').each_with_index do |row, id|
-      next if id == 0
+      next if id == 0 && row.children.first.name == "text"
 
       has_bounty = html_doc.search('.tournament-type')[1].search('.tournament-col').count === 3
       has_reentry = html_doc.search('.tournament-type')[3].search('.tournament-col').count === 2

@@ -34,7 +34,6 @@
             <th class="text-center" scope="col"><%= sortable("Re-entries", "reentries", params[:query]) %></th>
             <th class="text-center" scope="col"><%= sortable("Mises", "bets", params[:query]) %></th>
             <th class="text-center" scope="col"><%= sortable("Gains", "earnings", params[:query]) %></th>
-            <th class="text-center" scope="col"><%= sortable("Kills", "kills", params[:query]) %></th>
             <th class="text-center" scope="col"><%= sortable("Gains nets", "net_earnings", params[:query]) %></th>
             <th class="text-center" scope="col"><%= sortable("Gains/ part°", "earnings_by_game", params[:query]) %></th>
           </tr>
@@ -48,7 +47,6 @@
               <td class="text-center"><%= stat.reentries.to_i %></td>
               <td class="text-center"><%= number_to_currency(stat.bets, precision: 2) %></td>
               <td class="text-center"><%= number_to_currency(stat.earnings, precision: 2) %></td>
-              <td class="text-center"><%= number_with_precision(stat.kills, precision: 0) %></td>
               <td class="text-center"><%= number_to_currency(stat.net_earnings, precision: 2) %></td>
               <td class="text-center"><%= number_to_currency(stat.earnings_by_game, precision: 2) %></td>
             </tr>

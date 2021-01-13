@@ -21,7 +21,7 @@ class Tournament < ApplicationRecord
       earnings: calculate_earnings,
       net_earnings: calculate_net_earnings,
       earnings_by_game: calculate_earnings_by_game,
-      kills: calculate_kills,
+      # kills: calculate_kills,
       bounties: calculate_bounties
     }
   end
@@ -41,9 +41,9 @@ class Tournament < ApplicationRecord
     @player_results.map(&:reentries).sum
   end
 
-  def calculate_kills
-    @player_results.map(&:kills).sum
-  end
+  # def calculate_kills
+  #   @player_results.map(&:kills).sum
+  # end
 
   def calculate_bounties
     @player_results.map(&:bounties).sum
@@ -58,7 +58,7 @@ class Tournament < ApplicationRecord
   end
 
   def calculate_earnings
-    @earnings = @player_results.map(&:earnings).sum
+    @earnings = @player_results.map(&:earnings).sum + @player_results.map(&:bounties).sum
   end
 
   def calculate_net_earnings

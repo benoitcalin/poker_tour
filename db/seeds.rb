@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 
-game_ids = ['337357698', '337731880', '344624175', '346612586', '348273498', '350145852', '352493558', '354523393', '356601454', '357057091', '360574181', '404475156', '404515521']
+game_ids = ['337357698', '337731880', '344624175', '346612586', '348273498', '350145852', '352493558', '354523393', '356601454', '357057091', '360574181', '404475156', '404515521', '408969984', '412569713', '415020739']
 
 Tournament.destroy_all
 User.destroy_all
@@ -28,7 +28,7 @@ game_ids.each do |game_id|
   if game.id.nil?
     game.attributes = scrapings[:game]
     game.save!
-
+    p scrapings[:results]
     scrapings[:results].each do |result|
       player = Player.find_or_initialize_by(name: result["player_name"])
       player.name = result["player_name"]
@@ -36,12 +36,12 @@ game_ids.each do |game_id|
       puts "Player #{player.name} created"
 
       new_result = Result.new(result.except("player_name"))
-      if result['position'] == 1
-        other_bounties = game.total_registrations * game.bounty - new_result.bounties
-        new_result.kills = game.bounty > 0 ? (((new_result.bounties - other_bounties) / game.bounty) - 1.0) : 0.00
-      else
-        new_result.kills = game.bounty > 0 ? new_result.bounties / (game.bounty / 2.0) : 0.00
-      end
+      # if result['position'] == 1
+      #   other_bounties = game.total_registrations * game.bounty - new_result.bounties
+      #   new_result.kills = game.bounty > 0 ? (((new_result.bounties - other_bounties) / game.bounty) - 1.0) : 0.00
+      # else
+      #   new_result.kills = game.bounty > 0 ? new_result.bounties / (game.bounty / 2.0) : 0.00
+      # end
       new_result.player = player
       new_result.game = game
       new_result.save!
@@ -121,6 +121,9 @@ hb_game_ids.each do |game_id|
   end
 end
 
+puts "This is the end"
+
+
 # Pour vérifier mes calculs
 # fake_tournament = Tournament.create!(name: "FAKE Tournament")
 # puts "#{fake_tournament.name} created"
@@ -169,6 +172,4 @@ end
 #     tournament_result.update!(fake_tournament.updated_player_results(player))
 #   end
 # end
-
-puts "This is the end"
 

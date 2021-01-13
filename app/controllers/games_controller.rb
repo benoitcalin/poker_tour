@@ -40,12 +40,12 @@ class GamesController < ApplicationController
   def create_result(result, game)
     new_result = Result.new(result.except("player_name"))
     player = Player.find_by_name(result["player_name"])
-    if result['position'] == 1
-      other_bounties = game.total_registrations * game.bounty - new_result.bounties
-      new_result.kills = game.bounty > 0 ? (((new_result.bounties - other_bounties) / game.bounty) - 1.0) : 0.00
-    else
-      new_result.kills = game.bounty > 0 ? new_result.bounties / (game.bounty / 2.0) : 0.00
-    end
+    # if result['position'] == 1
+    #   other_bounties = game.total_registrations * game.bounty - new_result.bounties
+    #   new_result.kills = game.bounty > 0 ? (((new_result.bounties - other_bounties) / game.bounty) - 1.0) : 0.00
+    # else
+    #   new_result.kills = game.bounty > 0 ? new_result.bounties / (game.bounty / 2.0) : 0.00
+    # end
     new_result.player = player
     new_result.game = game
     new_result.save
